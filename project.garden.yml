@@ -5,7 +5,7 @@ environments:
   - name: local
   - name: remote
     variables:
-      base-hostname: *HOSTNAME*
+      baseHostname: *HOSTNAME*
 providers:
   - name: local-kubernetes
     environments: [local]
