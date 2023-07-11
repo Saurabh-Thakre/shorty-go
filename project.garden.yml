@@ -1,0 +1,25 @@
+apiVersion: garden.io/v1
+kind: Project
+name: shorty-go
+environments: 
+  - name: local
+  - name: remote
+    variables:
+      base-hostname: *HOSTNAME*
+providers:
+  - name: local-kubernetes
+    environments: [local]
+  - name: kubernetes
+    environments: [remote]
+    context: * THE KUBE CONTEXT *  
+    setupIngressController: false
+    buildMode: cluster-buildkit
+    deploymentRegistry:
+      hostname: * THE REGISTRY HOSTNAME CONFIGURED* # <- set this according to the region your cluster runs in
+      namespace: * THE REGISTRY NAMESPACE CONFIGURED *   
+    imagePullSecrets:
+      # Make sure this matches the name and namespace of the imagePullSecret you've created
+      # to authenticate with your registry (if needed)
+      - name:  * THE IMAGE PULL SECRET FROM STEP *
+        namespace: * THE IMAGE PULL SECRET NAMESPACE*
+    defaultHostname: ${var.baseHostname}
